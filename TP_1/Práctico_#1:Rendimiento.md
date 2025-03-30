@@ -1,6 +1,10 @@
 # Trabajo Práctico 1: Rendimiento 
 ## Introduccion 
-El objetivo de este primer trabajo práctico de la materia es el de analizar el rendimiento de las computadores, para poder cuantificarlo. Con este proposito se utilizarán benchmarks y se utilizarán herramientas como GPROF y perf para medir performance de codigo, haciendo uso de una ESP32.
+El objetivo de este primer trabajo práctico es analizar el rendimiento de los sistemas informáticos y cuantificarlo. Para ello, se emplearán benchmarks y herramientas como GPROF y perf para medir la performance del código en una ESP32.
+
+Evaluar el rendimiento de un sistema es fundamental para optimizar su desempeño y garantizar su eficiencia. Para ello, se utilizan métricas y herramientas que permiten medir su capacidad para ejecutar tareas en un tiempo determinado. Entre estas técnicas, los benchmarks se han consolidado como una de las más utilizadas, ya que ofrecen una manera objetiva y reproducible de comparar el rendimiento en distintos escenarios y cargas de trabajo.
+
+El análisis de rendimiento no solo se centra en el hardware, sino también en el software, el sistema operativo y la arquitectura de los programas. Dependiendo de la aplicación, algunos benchmarks pueden ser más representativos que otros, lo que permite tomar decisiones informadas sobre optimización y adquisición de equipos.
 
 ---
 
@@ -10,6 +14,7 @@ Una de las formas más precisas y confiables de medir el rendimiento de un siste
 El desempeño de una estación de trabajo se analiza considerando diversos factores físicos y lógicos que afectan su funcionamiento global. Para obtener una visión completa del rendimiento del sistema, es necesario evaluar no solo el hardware, sino también el sistema operativo, los dispositivos de red, los compiladores y las bibliotecas utilizadas en el software.
 
 **Tipos de Benchmarks**
+
 Existen diferentes tipos de benchmarks utilizados para evaluar el rendimiento de un sistema:
 - Benchmarks sintéticos: Son pruebas diseñadas específicamente para medir el rendimiento de un sistema bajo condiciones controladas. Suelen ser programas pequeños que simulan cargas de trabajo específicas, proporcionando métricas comparativas entre diferentes configuraciones de hardware o software.
 - Benchmarks reducidos: Son fragmentos de código extraídos de aplicaciones reales, que permiten medir el rendimiento de partes específicas del sistema sin necesidad de ejecutar el programa completo.
@@ -21,6 +26,7 @@ El rendimiento de un sistema se define como su capacidad para completar una tare
 Dado que los sistemas informáticos ejecutan programas mediante instrucciones, su rendimiento está directamente relacionado con el tiempo de ejecución de dichos programas. En este sentido, el tiempo es la métrica fundamental para evaluar la eficiencia de un computador.
 
 **Medidas de desempeño**
+
 Para evaluar el rendimiento de un sistema se utilizan diversas métricas, entre ellas:
 - Ciclos por instrucción (CPI): Indica el número promedio de ciclos de reloj requeridos para ejecutar una instrucción.
 - Instrucciones por ciclo (IPC): Mide cuántas instrucciones se pueden ejecutar en un solo ciclo de reloj.
@@ -30,6 +36,7 @@ Para evaluar el rendimiento de un sistema se utilizan diversas métricas, entre 
 - Eficiencia: Evalúa el aprovechamiento de los recursos del sistema en función del rendimiento obtenido.
 
 **Factores que afectan el rendimiento del procesador**
+
 El desempeño de un procesador depende de múltiples factores, entre los cuales destacan:
 - Frecuencia de la CPU (fCPU): Indica la cantidad de ciclos por segundo que ejecuta el procesador. Es importante diferenciar la frecuencia de la CPU de la del bus del sistema, ya que este último opera a una velocidad menor.
 - Período de la CPU (TCPU): Se define como el tiempo de duración de un ciclo de reloj y es inversamente proporcional a la frecuencia de la CPU.
@@ -41,8 +48,7 @@ El desempeño de un procesador depende de múltiples factores, entre los cuales 
 
 ## Desarrollo 
 
-1) Armar una lista de benchmarks, ¿cuales les serían más útiles a cada uno ? ¿Cuáles podrían llegar a medir mejor las tareas que ustedes realizan a diario ?
-Pensar en las tareas que cada uno realiza a diario y escribir en una tabla de dos entradas las tareas y que benchmark la representa mejor.
+1) **Armar una lista de benchmarks, ¿cuales les serían más útiles a cada uno ? ¿Cuáles podrían llegar a medir mejor las tareas que ustedes realizan a diario ? Pensar en las tareas que cada uno realiza a diario y escribir en una tabla de dos entradas las tareas y que benchmark la representa mejor.**
 
 Se realizo un a tabla con los benchmark que iutilizamos duante la carrera y con que propositos:
 | **Tarea**                                 | **Benchmark Ideal**            |
@@ -53,7 +59,8 @@ Se realizo un a tabla con los benchmark que iutilizamos duante la carrera y con 
 | Evaluación de código en C/C++             | Google Benchmark               |
 | Compilación de firmware y código embebido | Google Benchmark               |
 
-2) Cual es el rendimiento de estos procesadores para compilar el kernel de linux ?
+2) **¿Cual es el rendimiento de estos procesadores para compilar el kernel de linux?**
+
 	Intel Core i5-13600K
 	AMD Ryzen 9 5900X 12-Core
 
@@ -80,11 +87,9 @@ Donde:
 - $$\ T_{EX_1} \$$ y $$\ T_{EX_2} \$$ son los tiempos de ejecución de cada procesador.
 
 
-3) Cual es la aceleración cuando usamos un AMD Ryzen 9 7950X 16-Core
+3) **¿Cual es la aceleración cuando usamos un AMD Ryzen 9 7950X 16-Core?**
 
-4) Conseguir un esp32 o cualquier procesador al que se le pueda cambiar la frecuencia.
-Ejecutar un código que demore alrededor de 10 segundos. Puede ser un bucle for con sumas de enteros por un lado y otro con suma de floats por otro lado.
-¿Qué sucede con el tiempo del programa al duplicar (variar) la frecuencia ? 
+4) **Conseguir un esp32 o cualquier procesador al que se le pueda cambiar la frecuencia. Ejecutar un código que demore alrededor de 10 segundos. Puede ser un bucle for con sumas de enteros por un lado y otro con suma de floats por otro lado. ¿Qué sucede con el tiempo del programa al duplicar (variar) la frecuencia?**
 
 Se ejecutó el siguiente código en una ESP32 
 ```
