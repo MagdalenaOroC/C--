@@ -1,5 +1,5 @@
-Trabajo Práctico 1: Rendimiento 
-Introduccion 
+#Trabajo Práctico 1: Rendimiento 
+##Introduccion 
 El objetivo de este primer trabajo práctico de la materia es el de analizar el rendimiento de las computadores, para poder cuantificarlo. Con este proposito se utilizarán benchmarks y se utilizarán herramientas como GPROF y perf para medir performance de codigo, haciendo uso de una SP32.
 
 
@@ -8,7 +8,7 @@ El objetivo de este primer trabajo práctico de la materia es el de analizar el 
 //Rendimiento)
 
 
-Desarrollo 
+##Desarrollo 
 
 
 1)Armar una lista de benchmarks, ¿cuales les serían más útiles a cada uno ? ¿Cuáles podrían llegar a medir mejor las tareas que ustedes realizan a diario ?
