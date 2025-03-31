@@ -88,8 +88,14 @@ Donde:
 
 
 3) **¿Cual es la aceleración cuando usamos un AMD Ryzen 9 7950X 16-Core?**
+   Para calcular la aceleracion(speedup) es la razón entre el rendimiento de un sistema mejorado y el rendimiento de su implementación original.
+   Entonces al utilizar un AMD Ryzen 9 7950X 16-Core podemos calcularla usando el rendimiento original es decir al AMD Ryzen 9 5900X 12-Core y tambien al rendimiento mejorado que en este caso seria el Ryzen 9 7950X.
+   Extrayendo informacion del sitio web https://openbenchmarking.org/test/pts/build-linux-kernel-1.15.0 encontramos que el  AMD Ryzen 9 7950X 16-Core tiene un tiempo promedio(s) de 46 +- 5. Utilizando la formula de Speed up recien mencionada: 76(s)/46(s) que nos da un n=1,65. El aumento de rendimiento es 1,65 veces al utilizar un procesador con 16 nucleos en comparacion al modelo de 12 nucleos. La aceleración (speedup) de 1.65x refleja un aumento del 65% en el rendimiento del Ryzen 9 7950X en comparación con el Ryzen 9 5900X para tareas específicas como la compilación del núcleo de Linux.
+Es importante resaltar que el speedup depende de la naturaleza de la tarea. Para tareas de alto paralelismo, donde se puede aprovechar la mayor cantidad de núcleos, el aumento en el rendimiento será más notorio. Sin embargo, para tareas más ligeras o aquellas que no pueden paralelizarse bien, el incremento no será tan pronunciado.
+El rendimiento no escala linealmente con el número de núcleos. Aunque el Ryzen 9 7950X tiene 4 núcleos más que el 5900X, el incremento de rendimiento será una fracción de la diferencia teórica, lo que explica el factor de aceleración de 1.65x. Por último, la optimización de software es clave para aprovechar multiples núcleos ya que algunos programas pueden no mostrar una mejora significativa a pesar de contar con más núcleos disponibles.
+    
 
-4) **Conseguir un esp32 o cualquier procesador al que se le pueda cambiar la frecuencia. Ejecutar un código que demore alrededor de 10 segundos. Puede ser un bucle for con sumas de enteros por un lado y otro con suma de floats por otro lado. ¿Qué sucede con el tiempo del programa al duplicar (variar) la frecuencia?**
+5) **Conseguir un esp32 o cualquier procesador al que se le pueda cambiar la frecuencia. Ejecutar un código que demore alrededor de 10 segundos. Puede ser un bucle for con sumas de enteros por un lado y otro con suma de floats por otro lado. ¿Qué sucede con el tiempo del programa al duplicar (variar) la frecuencia?**
 
 Se ejecutó el siguiente código en una ESP32 
 ```
