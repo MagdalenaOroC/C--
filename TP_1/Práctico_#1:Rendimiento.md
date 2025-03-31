@@ -50,7 +50,7 @@ El desempeño de un procesador depende de múltiples factores, entre los cuales 
 
 1) **Armar una lista de benchmarks, ¿cuales les serían más útiles a cada uno ? ¿Cuáles podrían llegar a medir mejor las tareas que ustedes realizan a diario ? Pensar en las tareas que cada uno realiza a diario y escribir en una tabla de dos entradas las tareas y que benchmark la representa mejor.**
 
-Se realizo un a tabla con los benchmark que iutilizamos duante la carrera y con que propositos:
+Se realizo un a tabla con los benchmark que utilizamos durante la carrera y con que propositos:
 | **Tarea**                                 | **Benchmark Ideal**            |
 |-------------------------------------------|--------------------------------|
 | Simulación de circuitos en LTspice        | LTspice Performance Test       |
