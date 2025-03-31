@@ -155,3 +155,4 @@ void loop() {}
 ```
 obteniendo los siguientes resultados:
 ![image](https://github.com/user-attachments/assets/30f3e1f4-10ff-40e3-8b9a-a9fde96578d7)
+ Por lo que se ve que al aumentar la frecuencia, se reduce el tiempo de ejecuciónaproximadamente a la mitad, y con la frecuencia maxima de 240Mhz obtenemos que el tiempo de ejecución minimo para este script seria de 1,4 us aproximadamente. Con esto, aumenta el rendimiento, ya que es inversamente proporcional al tiempo de ejecución.
