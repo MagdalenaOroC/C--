@@ -4,6 +4,7 @@
 ## Introducción
 En el ámbito del desarrollo de sistemas informáticos, la arquitectura en capas constituye un paradigma fundamental que permite la construcción de aplicaciones complejas mediante la separación de responsabilidades. Esta estrategia facilita la interacción entre diferentes niveles de abstracción, desde las capas superiores que emplean lenguajes más cercanos al programador hasta las capas inferiores que se comunican directamente con el hardware. En este contexto, el presente informe aborda el desarrollo de una calculadora de índices GINI, un indicador económico ampliamente utilizado para medir la desigualdad en la distribución de ingresos dentro de un país.
 Este proyecto representa un caso práctico de implementación de una arquitectura multicapa, donde se integran lenguajes de alto nivel como Python para la interfaz y la recuperación de datos mediante APIs REST, lenguajes de nivel intermedio como C para la lógica de procesamiento, y finalmente, lenguaje ensamblador para operaciones de bajo nivel como conversiones de tipos de datos. A través de este enfoque, se busca no solo crear una herramienta funcional para el cálculo de índices GINI, sino también profundizar en el conocimiento de las convenciones de llamada entre diferentes capas de abstracción, un aspecto crucial en el desarrollo de sistemas críticos y en la comprensión de la interacción entre software y hardware.
+
 ---
 
 ## Marco Teórico
@@ -16,6 +17,7 @@ El índice GINI es una medida estadística que cuantifica la desigualdad en la d
 
 - *APIs REST y Consumo de Datos*
 Las APIs REST (Representational State Transfer) constituyen un estilo arquitectónico para el desarrollo de servicios web que ha ganado popularidad por su simplicidad y escalabilidad. Estas interfaces permiten a las aplicaciones interactuar con servicios remotos mediante operaciones estándar HTTP. En el contexto de este proyecto, se utiliza una API del Banco Mundial para obtener datos actualizados sobre los índices GINI de diferentes países, lo que proporciona una fuente confiable para los cálculos posteriores.
+
 ---
 
 ## Desarrollo
@@ -44,6 +46,7 @@ Como parte de esta etapa, también se utilizó GDB para inspeccionar el contenid
 ![image](https://github.com/user-attachments/assets/89ab780c-1ac3-4526-bb36-798156cb4fc0)
 
 Viendo asi el cambio de contenido en los registros, especialmente con eax 
+
 ---
 
 ## Conclusión
