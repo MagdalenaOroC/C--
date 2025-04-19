@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: gini-app
-    env: python
-    plan: free
-    buildCommand: pip install -r TP_2/app/requirements.txt
-    startCommand: python3 TP_2/app/app.py
-    envVars: []
