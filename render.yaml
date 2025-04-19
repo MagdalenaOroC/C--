@@ -3,6 +3,8 @@ services:
     name: gini-app
     env: python
     plan: free
-    buildCommand: pip install -r TP_2/app/requirements.txt
+    buildCommand: |
+      apt-get update && apt-get install -y build-essential nasm
+      cd TP_2/app/gini_exec && make
+      pip install -r TP_2/app/requirements.txt
     startCommand: python3 TP_2/app/app.py
-    envVars: []
