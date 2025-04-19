@@ -4,7 +4,8 @@ services:
     env: python
     plan: free
     buildCommand: |
-      apt-get update && apt-get install -y build-essential nasm
-      cd TP_2/app/gini_exec && make
+      sudo apt-get update && sudo apt-get install -y build-essential nasm
+      cd "TP_2/iteracion 2" && make
+      cp gini ../app/gini_exec/
       pip install -r TP_2/app/requirements.txt
     startCommand: python3 TP_2/app/app.py
