@@ -25,4 +25,3 @@ def obtener_gini_argentina():
 
 if __name__ == "__main__":
     obtener_gini_argentina()
-

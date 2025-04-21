@@ -28,4 +28,3 @@ run:
 
 clean:
 	rm -f c/*.o asm/*.o *.o $(BIN) dep_test
-

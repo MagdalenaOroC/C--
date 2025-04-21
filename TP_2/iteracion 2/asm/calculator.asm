@@ -12,5 +12,8 @@ sumo_uno:
     mov eax, [esp-4]      ; copia ese valor a eax (Extended Accumulator Register - de uso general) para usarlo en c
     add eax, 1            ; le suma 1
 
+    mov edx, [ebp+12]       ; edx = puntero a resultado
+    mov [edx], eax          ; guarda eax en *resultado
+
     pop ebp     ;restaura el marco de la pila anterior 
     ret

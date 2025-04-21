@@ -1,13 +1,14 @@
 #include <stdio.h>
 
-extern int sumo_uno(float);
+extern void sumo_uno(float value, int* resultado);
 
 int main() {
     float gini = 42.7;
 
     printf("Antes de llamar a sumo_uno\n");
 
-    int resultado = sumo_uno(gini);
+    int resultado = 0;
+    sumo_uno(gini, &resultado);
 
     printf("Después de llamar a sumo_uno\n");
 
@@ -15,4 +16,3 @@ int main() {
 
     return 0;
 }
-
