@@ -15,6 +15,7 @@ Un ejemplo reciente es la vulnerabilidad en Secure Boot conocida como LogoFAIL, 
 También hubo problemas de overflow y corrupcion de memoriaen algunos servicios de UEFI. Estos bugs son peligrosos porque se explotan antes de que cargue el sistema operativo, o sea, son muy difíciles de detectar y corregir después
 
 ### ¿Qué es Converged Security and Management Engine (CSME), the Intel Management Engine BIOS Extension (Intel MEBx).?
+
 Converged Security and Management Engine (CSME): El CSME es una tecnología de Intel que combina funciones de seguridad y gestión en un único motor integrado en el chipset. Es decir que es como un sistema operativo aparte que corre dentro del procesador Intel, independiente de tu sistema operativo real. Se usa para por ejemplo manejo remoto de PCs  y funciones de seguridad avanzadas, como cifrado y autenticación.
 
 Intel Management Engine BIOS Extension (Intel MEBx): es la parte de la BIOS que te deja configurar las opciones de ese motor de seguridad. Es una extensión del firmware que permite configurar y gestionar las capacidades de Intel Management Engine (ME), como Intel Active Management Technology (AMT). Esto es útil para la administración remota de dispositivos, especialmente en entornos empresariales
@@ -37,7 +38,9 @@ Algunas de sus ventajas son:
 
 
 ## Tema 2 - Linker
+
 ### ¿Que es un linker? ¿que hace ? 
+
 Un linker (o enlazador) es una herramienta que toma los archivos de código (que compila el assembler o el C)  generados por el compilador y los combina en un único archivo ejecutable o biblioteca. Sus funciones principales son las de resolución de símbolos(Asocia referencias a funciones o variables con sus definiciones) y la reubicación, resolviendo las direcciones de memoria.
 
 ### ¿Que es la dirección que aparece en el script del linker?¿Porqué es necesaria ?
@@ -75,7 +78,14 @@ El programa fue colocado al comienzo del sector de arranque del disco (offset 0x
 
 ### Grabar la imagen en un pendrive y probarla en una pc y subir una foto 
 
-** Pendiente **
+Para grabar la imagen en un pendrive y probarla en una PC real, primero conectamos el dispositivo USB y utilizamos el comando lsblk para identificar su nombre dentro del sistema, que en este caso resultó ser /dev/sdd. Es importante asegurarse de que esta ruta corresponde al pendrive y no a otro disco para evitar sobrescribir datos importantes. Luego, desde la carpeta donde se encontraba la imagen generada (~/Escritorio/C--/TP_3/protected-mode-sdc/x86-bare-metal-examples), ejecutamos el siguiente comando:
+
+```bash
+sudo dd if=protected_mode.img of=/dev/sdd bs=4M status=progress && sync
+```
+Este comando utiliza dd para copiar byte a byte el contenido de la imagen protected_mode.img directamente al dispositivo USB. El parámetro bs=4M mejora la velocidad al usar bloques de 4 megabytes, status=progress permite ver el avance del proceso, y sync asegura que todos los datos se escriban correctamente antes de finalizar. Una vez completado, retiramos el pendrive de forma segura, lo conectamos a una PC de pruebas y configuramos el arranque desde USB. Al encenderla, pudimos comprobar que el sistema booteó correctamente en modo protegido y mostró en pantalla el mensaje "Hello World":
+
+![imagen en pendrive, prueba en computadora real](capturas/protected_mode%20en%20pendrive.jpeg)
 
 ### ¿Para que se utiliza la opción --oformat binary en el linker?
 
