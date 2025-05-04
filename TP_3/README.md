@@ -55,8 +55,8 @@ objdump -D protected_mode.o > objdump_output.txt
 # Examinar la imagen binaria con hexdump
 hd protected_mode.img > hexdump_output.txt
 ```
-Al analizar ambos archivos, observo que el código desensamblado por objdump aparece en la imagen hexadecimal, pero con un desplazamiento importante. En objdump_output.txt, el código comienza en la dirección 0x0000 y en hexdump_output.txt, las mismas instrucciones aparecen, pero con direcciones desplazadas. 
-Comparando secuencias específicas, como por ejemplo las primeras instrucciones del código:
+Al analizar ambos archivos, observamos que el código desensamblado por objdump aparece en la imagen hexadecimal, pero con un desplazamiento importante. En objdump_output.txt, el código comienza en la dirección 0x0000 y en hexdump_output.txt, las mismas instrucciones aparecen, pero con direcciones desplazadas. 
+Comparación de secuencias específicas, como por ejemplo las primeras instrucciones del código:
 En objdump:
 ```
 00000000 <initial_dl-0x1c>:
@@ -68,7 +68,8 @@ En hexdump:
 00000000  fa ea 06 7c 00 00 31 c0  8e d8 8e c0 8e e0 8e e8  |...|..1.........|
 ```
 La primera instrucción cli (fa) coincide, pero la segunda instrucción muestra una diferencia. En el objdump es ljmp $0xc031,$0x6, mientras que en hexdump aparece un valor diferente para la dirección de salto (7c en lugar de 00).
-Desplazamiento de memoria: El código fue colocado en la dirección 0x7c00 del disco, en hexdump_output.txt todas las referencias de memoria que en objdump se muestran como direcciones relativas a 0x00, aparecen modificadas para apuntar a direcciones relativas a 0x7c00. Por ejemplo, vemos que las referencias a memoria como 1c 00 en objdump aparecen como 1c 7c en hexdump. El mensaje "hello world" que en objdump aparece en la posición 0xd7, en hexdump aparece en 0xd7 + 0x7c00 (aunque hexdump solo muestra los últimos bytes de la dirección).
+
+En cuanto al desplazamiento de memoria, el código fue colocado en la dirección 0x7c00 del disco, en hexdump_output.txt todas las referencias de memoria que en objdump se muestran como direcciones relativas a 0x00, aparecen modificadas para apuntar a direcciones relativas a 0x7c00. Por ejemplo, vemos que las referencias a memoria como 1c 00 en objdump aparecen como 1c 7c en hexdump. El mensaje "hello world" que en objdump aparece en la posición 0xd7, en hexdump aparece en 0xd7 + 0x7c00 (aunque hexdump solo muestra los últimos bytes de la dirección).
 La imagen termina con los bytes 55 aa en la posición 0x1FE-0x1FF, que corresponde a la firma estándar del sector de arranque (boot sector). Esto confirma que el programa ha sido colocado en el primer sector de arranque del disco, que se carga en la dirección de memoria 0x7c00 al iniciar el sistema.
 El programa fue colocado al comienzo del sector de arranque del disco (offset 0x0000 en hexdump), pero ha sido ensamblado para ejecutarse en la dirección de memoria 0x7c00, que es la dirección estándar donde el BIOS carga el sector de arranque al iniciar la computadora. Las referencias a memoria han sido ajustadas para reflejar esto, sustituyendo las direcciones relativas de objdump por direcciones absolutas en el archivo hexadecimal. La diferencia más notable está en todas las referencias que en objdump son relativas a 0x00, que en hexdump aparecen con el byte alto modificado a 0x7c, indicando el desplazamiento a la dirección 0x7c00.
 
