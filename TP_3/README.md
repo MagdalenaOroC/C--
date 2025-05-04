@@ -79,7 +79,14 @@ El programa fue colocado al comienzo del sector de arranque del disco (offset 0x
 
 ### ¿Para que se utiliza la opción --oformat binary en el linker?
 
-** Pendiente **
+La opción --oformat binary se utiliza para indicar al linker (ld) que genere un archivo de salida en formato binario puro, sin ninguna cabecera o metadatos adicionales propios de formatos como ELF, COFF o PE.
+Esta opción es crucial por las siguientes razones:
+* Imagen de disco cruda: Para crear bootloaders o código que se ejecuta directamente en el hardware, necesitamos un archivo binario puro que contenga solo el código máquina y los datos, exactamente como deben estar en memoria.
+* Sin cabeceras: Los formatos como ELF incluyen cabeceras y metadatos que el hardware desnudo no puede interpretar. La opción binary elimina toda esta información extra.
+* Control total: Permite tener control absoluto sobre cada byte que va en la imagen final, lo cual es esencial para programación a bajo nivel donde cada byte importa.
+* Compatibilidad con hardware: Formatos como MBR requieren una estructura binaria específica sin metadatos adicionales, donde los últimos dos bytes del sector deben ser 0x55 y 0xAA.
+
+En el contexto del trabajo con modo protegido en x86, esta opción asegura que la imagen generada pueda ser cargada directamente por el BIOS o grabada en un dispositivo de arranque sin necesidad de ningún procesamiento adicional.
 
 ## Tema 3 - Modo Protegido
 El modo protegido es un modo de operación de los procesadores x86 introducido con el Intel 80286. Su principal objetivo es mejorar la estabilidad y seguridad del sistema al permitir características como la protección de memoria, segmentación avanzada y paginación. En este modo, el sistema operativo puede evitar que un programa acceda a áreas de memoria no autorizadas, lo que protege tanto al núcleo del sistema como a otros procesos en ejecución.
