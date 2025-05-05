@@ -1,5 +1,7 @@
 # Trabajo Practico 3: Modo Protegido 
 
+---
+
 ## Tema 1- UEFI y coreboot
 ### ¿Qué es UEFI? ¿como puedo usarlo? Mencionar además una función a la que podría llamar usando esa dinámica. 
 UEFI (Unified Extensible Firmware Interface) es como una evolución de la BIOS. Es un tipo de firmware que arranca la PC antes de que cargue el sistema operativo, lo que hace es definir una interfaz entre el sistema operativo y el firmware de la plataforma. Su propósito es actuar como un puente entre el hardware de tu computadora y el sistema operativo, permitiendo que el sistema arranque y funcione correctamente. A diferencia de la BIOS vieja, UEFI puede trabajar en modo protegido (32 o 64 bits) y no solo en modo real.
@@ -36,12 +38,17 @@ Algunas de sus ventajas son:
 -Se puede customizar para el hardware disponible.
 -Compatibilidad: Funciona con una amplia gama de hardware y sistemas operativos.
 
+---
 
 ## Tema 2 - Linker
 
-### ¿Que es un linker? ¿que hace ? 
+### ¿Que es un linker? ¿que hace? 
 
 Un linker (o enlazador) es una herramienta que toma los archivos de código (que compila el assembler o el C)  generados por el compilador y los combina en un único archivo ejecutable o biblioteca. Sus funciones principales son las de resolución de símbolos(Asocia referencias a funciones o variables con sus definiciones) y la reubicación, resolviendo las direcciones de memoria.
+
+Por ejemplo: El directorio 01HelloWorld contiene código assembler que linkea la imagen del main .img con el objeto del main .o
+
+![Hello world en qemu](capturas/01HelloWorld.png)
 
 ### ¿Que es la dirección que aparece en el script del linker?¿Porqué es necesaria ?
 
@@ -58,18 +65,23 @@ objdump -D protected_mode.o > objdump_output.txt
 # Examinar la imagen binaria con hexdump
 hd protected_mode.img > hexdump_output.txt
 ```
+
 Al analizar ambos archivos, observamos que el código desensamblado por objdump aparece en la imagen hexadecimal, pero con un desplazamiento importante. En objdump_output.txt, el código comienza en la dirección 0x0000 y en hexdump_output.txt, las mismas instrucciones aparecen, pero con direcciones desplazadas. 
 Comparación de secuencias específicas, como por ejemplo las primeras instrucciones del código:
 En objdump:
+
 ```
 00000000 <initial_dl-0x1c>:
    0:	fa                   	cli
    1:	ea 06 00 00 00 31 c0 	ljmp   $0xc031,$0x6
 ```
+
 En hexdump:
+
 ```
 00000000  fa ea 06 7c 00 00 31 c0  8e d8 8e c0 8e e0 8e e8  |...|..1.........|
 ```
+
 La primera instrucción cli (fa) coincide, pero la segunda instrucción muestra una diferencia. En el objdump es ljmp $0xc031,$0x6, mientras que en hexdump aparece un valor diferente para la dirección de salto (7c en lugar de 00).
 
 En cuanto al desplazamiento de memoria, el código fue colocado en la dirección 0x7c00 del disco, en hexdump_output.txt todas las referencias de memoria que en objdump se muestran como direcciones relativas a 0x00, aparecen modificadas para apuntar a direcciones relativas a 0x7c00. Por ejemplo, vemos que las referencias a memoria como 1c 00 en objdump aparecen como 1c 7c en hexdump. El mensaje "hello world" que en objdump aparece en la posición 0xd7, en hexdump aparece en 0xd7 + 0x7c00 (aunque hexdump solo muestra los últimos bytes de la dirección).
@@ -83,6 +95,7 @@ Para grabar la imagen en un pendrive y probarla en una PC real, primero conectam
 ```bash
 sudo dd if=protected_mode.img of=/dev/sdd bs=4M status=progress && sync
 ```
+
 Este comando utiliza dd para copiar byte a byte el contenido de la imagen protected_mode.img directamente al dispositivo USB. El parámetro bs=4M mejora la velocidad al usar bloques de 4 megabytes, status=progress permite ver el avance del proceso, y sync asegura que todos los datos se escriban correctamente antes de finalizar. Una vez completado, retiramos el pendrive de forma segura, lo conectamos a una PC de pruebas y configuramos el arranque desde USB. Al encenderla, pudimos comprobar que el sistema booteó correctamente en modo protegido y mostró en pantalla el mensaje "Hello World":
 
 ![imagen en pendrive, prueba en computadora real](capturas/protected_mode%20en%20pendrive.jpeg)
@@ -97,6 +110,8 @@ Esta opción es crucial por las siguientes razones:
 * Compatibilidad con hardware: Formatos como MBR requieren una estructura binaria específica sin metadatos adicionales, donde los últimos dos bytes del sector deben ser 0x55 y 0xAA.
 
 En el contexto del trabajo con modo protegido en x86, esta opción asegura que la imagen generada pueda ser cargada directamente por el BIOS o grabada en un dispositivo de arranque sin necesidad de ningún procesamiento adicional.
+
+---
 
 ## Tema 3 - Modo Protegido
 El modo protegido es un modo de operación de los procesadores x86 introducido con el Intel 80286. Su principal objetivo es mejorar la estabilidad y seguridad del sistema al permitir características como la protección de memoria, segmentación avanzada y paginación. En este modo, el sistema operativo puede evitar que un programa acceda a áreas de memoria no autorizadas, lo que protege tanto al núcleo del sistema como a otros procesos en ejecución.
@@ -133,6 +148,11 @@ Al configurarse el segmento de datos como solo lectura, se intenta escribir en �
 
 Intentar escribir en un segmento de solo lectura debería provocar una excepción de protección general (General Protection Fault - GPF). Este tipo de excepción es lanzada por el procesador cuando se intenta realizar una operación no permitida en el segmento, como escribir en un segmento de solo lectura.
 Debería ocurrir un fallo de protección o General Protection Fault (GPF), el procesador debería interrumpir la ejecución del programa, generando una excepción.
+
+![imagen en pendrive, prueba en computadora real](capturas/escritura%20en%20solo%20lectura%201.png)
+
+![imagen en pendrive, prueba en computadora real](capturas/escritura%20en%20solo%20lectura%202.png)
+
 
 ### En modo protegido, ¿Con qué valor se cargan los registros de segmento ? ¿Porque? 
 

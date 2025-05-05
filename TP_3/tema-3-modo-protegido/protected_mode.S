@@ -104,6 +104,7 @@ gdt:
     .word   0x0000      # Base [0:15]
     .byte   0x00        # Base [16:23]
     .byte   0x92        # Acceso (P=1, DPL=00, S=1, Type=0010)
+    #.byte   0x90        # Acceso (P=1, DPL=00, S=1, Type=0000) => Read-Only
     .byte   0xCF        # Granularidad (G=1, D=1, L=0, AVL=0) + Límite [16:19]
     .byte   0x00        # Base [24:31]
 
