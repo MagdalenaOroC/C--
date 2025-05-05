@@ -76,11 +76,15 @@ En objdump:
    1:	ea 06 00 00 00 31 c0 	ljmp   $0xc031,$0x6
 ```
 
+![objdump](capturas/objdump%20txt.png)
+
 En hexdump:
 
 ```
 00000000  fa ea 06 7c 00 00 31 c0  8e d8 8e c0 8e e0 8e e8  |...|..1.........|
 ```
+
+![hexdump](capturas/hexdump%20txt.png)
 
 La primera instrucción cli (fa) coincide, pero la segunda instrucción muestra una diferencia. En el objdump es ljmp $0xc031,$0x6, mientras que en hexdump aparece un valor diferente para la dirección de salto (7c en lugar de 00).
 
@@ -149,9 +153,9 @@ Al configurarse el segmento de datos como solo lectura, se intenta escribir en �
 Intentar escribir en un segmento de solo lectura debería provocar una excepción de protección general (General Protection Fault - GPF). Este tipo de excepción es lanzada por el procesador cuando se intenta realizar una operación no permitida en el segmento, como escribir en un segmento de solo lectura.
 Debería ocurrir un fallo de protección o General Protection Fault (GPF), el procesador debería interrumpir la ejecución del programa, generando una excepción.
 
-![imagen en pendrive, prueba en computadora real](capturas/escritura%20en%20solo%20lectura%201.png)
+![imagen regs](capturas/escritura%20en%20solo%20lectura%201.png)
 
-![imagen en pendrive, prueba en computadora real](capturas/escritura%20en%20solo%20lectura%202.png)
+![imagen regs](capturas/escritura%20en%20solo%20lectura%202.png)
 
 
 ### En modo protegido, ¿Con qué valor se cargan los registros de segmento ? ¿Porque? 
