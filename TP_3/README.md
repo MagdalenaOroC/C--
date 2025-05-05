@@ -26,17 +26,17 @@ Intel Management Engine BIOS Extension (Intel MEBx): es la parte de la BIOS que 
 
 coreboot es un proyecto de código abierto que reemplaza la BIOS/UEFI propietaria por una versión mucho más liviana y rápida.Lo usan productos como:
 
--Chromebooks
--Algunas motherboards de servidores
--Sistemas embebidos
+* Chromebooks
+* Algunas motherboards de servidores
+* Sistemas embebidos
 
 Algunas de sus ventajas son:
 
--Arranca mucho más rápido que BIOS/UEFI tradicional.
--Es software libre: Permite a los usuarios examinar, modificar y adaptar el firmware según sus necesidades.
--Tiene menos vulnerabilidades porque es más simple.
--Se puede customizar para el hardware disponible.
--Compatibilidad: Funciona con una amplia gama de hardware y sistemas operativos.
+* Arranca mucho más rápido que BIOS/UEFI tradicional.
+* Es software libre: Permite a los usuarios examinar, modificar y adaptar el firmware según sus necesidades.
+* Tiene menos vulnerabilidades porque es más simple.
+* Se puede customizar para el hardware disponible.
+* Compatibilidad: Funciona con una amplia gama de hardware y sistemas operativos.
 
 ---
 
