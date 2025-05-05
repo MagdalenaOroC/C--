@@ -103,7 +103,17 @@ El modo protegido es un modo de operación de los procesadores x86 introducido c
 
 ### Crear un código assembler que pueda pasar a modo protegido (sin macros).
 
-** Pendiente ** 
+Se realiza la transición a modo protegido mediante la manipulación de la GDT (Global Descriptor Table) para configurar dos descriptores de memoria:
+* Un descriptor para el segmento de código (con permisos de ejecución y lectura).
+* Un descriptor para el segmento de datos (con permisos de solo lectura, lo que genera la excepción cuando se intenta escribir en él).
+
+El código implementado cumple con esta consigna utilizando instrucciones explícitas en lugar de macros para preparar los registros, configurar la GDT y habilitar el bit PE en el registro CR0. Las siguientes instrucciones representan la transición al modo protegido:
+
+* Se inicializan los registros de segmento y el stack (xorw %ax, %ax hasta movw $0x7C00, %sp) (Líneas: _start hasta antes de print_string, aproximadamente líneas 6–10).
+* Se deshabilitan las interrupciones (cli) (Línea 13).
+* Se carga la GDT con lgdt gdt_descriptor (Línea 15).
+* Se habilita el modo protegido activando el bit PE en CR0 (Líneas 17–19).
+* Se realiza un salto largo (ljmp) para cargar un nuevo valor en CS y pasar formalmente al modo protegido (Línea 21).
 
 ### ¿Cómo sería un programa que tenga dos descriptores de memoria diferentes, uno para cada segmento (código y datos) en espacios de memoria diferenciados? 
 
@@ -111,15 +121,32 @@ En modo protegido, se puede crear un programa que defina dos descriptores en la 
 
 Cada descriptor especifica la base, el límite y los permisos del segmento. El programa debe cargar los registros de segmento (CS para código y DS para datos) con los selectores correspondientes a estos descriptores.
 
-** Pendiente intentarlo y capturar resultados **
+En el programa se definen dos descriptores de segmento en la GDT:
+* Descriptor de código (selector 0x08, índice 1): tipo código ejecutable y legible (tipo 0x9A) (Líneas 79–84).
+* Descriptor de datos de solo lectura (selector 0x10, índice 2): tipo datos solo lectura (tipo 0x92) (Líneas 86–91).
+
+Ambos descriptores cubren todo el espacio de 4 GB (límite = 0xFFFFF), aunque podrían ser configurados con bases diferentes si se quisiera aislar físicamente los espacios de código y datos.
 
 ### Cambiar los bits de acceso del segmento de datos para que sea de solo lectura,  intentar escribir, ¿Que sucede? ¿Que debería suceder a continuación? (revisar el teórico) Verificarlo con gdb. 
 
-** Pendiente **
+Al configurarse el segmento de datos como solo lectura, se intenta escribir en él con la instrucción: movl $0xDEADBEEF, data_test # Escritura en datos (Línea 42)
 
+Intentar escribir en un segmento de solo lectura debería provocar una excepción de protección general (General Protection Fault - GPF). Este tipo de excepción es lanzada por el procesador cuando se intenta realizar una operación no permitida en el segmento, como escribir en un segmento de solo lectura.
+Debería ocurrir un fallo de protección o General Protection Fault (GPF), el procesador debería interrumpir la ejecución del programa, generando una excepción.
 
 ### En modo protegido, ¿Con qué valor se cargan los registros de segmento ? ¿Porque? 
-En modo protegido, los registros de segmento (CS, DS, SS, etc.) se cargan con selectores de segmento, en lugar de cargar direcciones directas como en modo real. Un selector es un valor de 16 bits que apunta a un descriptor en la GDT o LDT (Local Descriptor Table). Este valor es necesario porque:
--Define la base, el límite y los permisos del segmento.
--Permite la segmentación avanzada y la protección de memoria.
-Esto es así porque  en modo protegido los segmentos son más que sólo una dirección, en relaidad estos dan permisos de acceso, limites, bases variablesy reglas de seguridad de nuvel de anillo . Entonces el valor que se carga no es una direccion fisica si no un selectopr que el procesador usa para buscar en la GDT la info del segmento 
+
+En modo protegido, los registros de segmento se cargan con los selectores de segmento configurados previamente en la GDT. En el código, la configuración de los registros de segmento ocurre con la siguiente línea en la sección protected_mode:
+
+```asm
+movw    $0x10, %ax  # Cargar el selector del segmento de datos (0x10) en AX
+movw    %ax, %ds     # Cargar %ds con el selector del segmento de datos
+movw    %ax, %es     # Cargar %es con el selector del segmento de datos
+movw    %ax, %ss     # Cargar %ss con el selector del segmento de datos
+movw    %ax, %fs     # Cargar %fs con el selector del segmento de datos
+movw    %ax, %gs     # Cargar %gs con el selector del segmento de datos
+```
+
+Los valores de los registros de segmento (como ds, es, ss, fs, gs) se cargan con los selectores que apuntan a los segmentos específicos que se definieron en la GDT.
+El selector 0x10 corresponde al segmento de datos en la GDT (índice 2 en la tabla de descriptores de la GDT). Este selector se refiere al descriptor del segmento de datos, que está configurado para ser solo lectura.
+Los registros de segmento como ds, es, ss, fs, y gs son pointers a los descriptores de segmento. En este caso, todos estos registros se configuran para apuntar al segmento de datos (0x10) en lugar de hacerlo al segmento de código (que sería 0x08).
