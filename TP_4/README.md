@@ -63,3 +63,45 @@ mensaje
 
 Viendo asi en el directorio proc nuestro nuevo modulo 
 ![image](https://github.com/user-attachments/assets/63c8adaf-438c-47b8-a008-dde07184c9de)
+
+## ¿Qué funciones tiene disponible un programa y un módulo?
+
+En un sistema Linux, los programas y los módulos del kernel operan en contextos distintos y por lo tanto tienen diferentes capacidades:
+
+### Programas (Espacio de Usuario)
+
+Los programas se ejecutan en el espacio de usuario, una zona de memoria protegida que impide el acceso directo al hardware o a los recursos críticos del sistema. Para interactuar con el sistema operativo (por ejemplo, abrir archivos, usar la red o leer el tiempo), los programas hacen uso de llamadas al sistema (syscalls), como `open()`, `read()`, `write()`, entre otras.
+
+Estas llamadas son gestionadas por el kernel, que actúa como intermediario entre el programa y el hardware. Herramientas como `strace` permiten ver en tiempo real qué llamadas hace un programa al sistema operativo, lo que ayuda a entender qué funciones realmente utiliza.
+
+### Módulos del Kernel (Espacio del Kernel)
+
+Los módulos del kernel se ejecutan en el espacio del kernel, donde el código tiene acceso directo a los recursos del sistema y al hardware. Esto les permite, por ejemplo:
+
+- Reservar memoria usando funciones como `kmalloc`.
+- Manejar interrupciones de hardware.
+- Definir estructuras y registros del sistema.
+- Crear y registrar controladores de dispositivos.
+
+A diferencia de los programas tradicionales, los módulos no tienen una función `main()`, sino que definen funciones especiales como `module_init()` (para inicialización) y `module_exit()` (para limpieza). Esto significa que no se ejecutan de forma lineal, sino que son cargados y utilizados por el kernel cuando se los necesita.
+
+### Espacios de memoria: Usuario vs Kernel
+
+Esta separación entre espacio de usuario y espacio de kernel es fundamental por razones de seguridad y estabilidad. Un error en un programa de usuario puede causar que se cierre dicho programa; en cambio, un error en un módulo del kernel puede provocar un fallo total del sistema.
+
+## Acceso a datos y memoria
+
+- Los programas acceden a datos que están en regiones de memoria asignadas por el sistema operativo. Solo pueden comunicarse con dispositivos o servicios del sistema mediante interfaces proporcionadas por el kernel.
+
+- Los módulos, por su parte, pueden asignar y gestionar directamente memoria del sistema, así como interactuar con estructuras internas del kernel o configurar regiones de memoria asociadas al hardware.
+
+## Drivers y el contenido de /dev
+
+El directorio `/dev` contiene los llamados archivos de dispositivo, que actúan como una interfaz entre los programas y el hardware. Por ejemplo:
+
+- `/dev/sda` representa un disco.
+- `/dev/tty` representa terminales.
+
+Cuando un programa accede a uno de estos archivos, en realidad está interactuando con un driver, que usualmente es un módulo del kernel. Este módulo es quien traduce las operaciones (`read`, `write`, etc.) en acciones concretas sobre el hardware.
+
+Este diseño permite al sistema operativo abstraer el acceso al hardware y mantener la coherencia del modelo "todo es un archivo" típico de los sistemas Unix y Linux.
